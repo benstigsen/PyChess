@@ -8,8 +8,12 @@ class Board:
     board = []
     
     # Black
-    board.append(
-      [Pawn(0, 0), Knight(0, 1), Pawn(0, 2), Pawn(0, 3), Pawn(0, 4), Pawn(0, 5), Knight(0, 6), Pawn(0, 7)])
+    Piece.isWhite = False
+    
+    board.append([
+      Rook(0, 0),  Knight(0, 1), Bishop(0, 2), King(0, 3), 
+      Queen(0, 4), Bishop(0, 5), Knight(0, 6), Rook(0, 7)
+    ])
     
     board.append([])
     
@@ -23,13 +27,16 @@ class Board:
         board[2 + i].append(None)
     
     # White
+    Piece.isWhite = True
+    
     board.append([])
     for i in range(8):
-      board[6].append(Pawn(6, i, True))
+      board[6].append(Pawn(6, i))
     
-    board.append(
-      [Pawn(0, 0), Knight(0, 1), Pawn(0, 2), Pawn(0, 3), Pawn(0, 4), Pawn(0, 5), Knight(0, 6), Pawn(0, 7)]
-    )
+    board.append([
+      Rook(7, 0),  Knight(7, 1), Bishop(7, 2), King(7, 3), 
+      Queen(7, 4), Bishop(7, 5), Knight(7, 6), Rook(7, 7)
+    ])
     
     self.board = board
 

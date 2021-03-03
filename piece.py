@@ -1,8 +1,10 @@
 global board
 
 class Piece:
-  def __init__(self, name, row, col, white = False):
-    if (white):
+  isWhite = False
+
+  def __init__(self, name, row, col):
+    if (Piece.isWhite):
       self.name = name.upper()
     else:
       self.name = name.lower()
@@ -10,9 +12,8 @@ class Piece:
     self.row = row
     self.col = col
     
-    self.isWhite = white
-    
-    self.has_moved = False
+    self.hasMoved = False
+    self.isWhite = Piece.isWhite
     
   def getPosition(self):
     return (self.row, self.col)
@@ -43,24 +44,24 @@ class Piece:
     #self.row = 
 
 class King(Piece):
-  def __init__(self, row, col, white = False):
-    super().__init__("K", row, col, white)
+  def __init__(self, row, col):
+    super().__init__("K", row, col)
 
 class Queen(Piece):
-  def __init__(self, row, col, white = False):
-    super().__init__("Q", row, col, white)
+  def __init__(self, row, col):
+    super().__init__("Q", row, col)
     
 class Rook(Piece):
-  def __init__(self, row, col, white = False):
-    super().__init__("R", row, col, white)
+  def __init__(self, row, col):
+    super().__init__("R", row, col)
 
 class Bishop(Piece):
-  def __init__(self, row, col, white = False):
-    super().__init__("B", row, col, white)
+  def __init__(self, row, col):
+    super().__init__("B", row, col)
 
 class Knight(Piece):
-  def __init__(self, row, col, white = False):
-    super().__init__("N", row, col, white)
+  def __init__(self, row, col):
+    super().__init__("N", row, col)
       
   def getPossibleMoves(self):
     row = self.row
@@ -89,11 +90,11 @@ class Knight(Piece):
     return moves
   
 class Pawn(Piece):
-  def __init__(self, row, col, white = False):
-    super().__init__("P", row, col, white)
+  def __init__(self, row, col):
+    super().__init__("P", row, col)
     
     # -1 for white, 1 for black
-    if (white):
+    if (self.isWhite):
       self.direction = -1
     else:
       self.direction = 1
@@ -102,7 +103,7 @@ class Pawn(Piece):
     moves = []
     
     # Change options depending on it having moved or not
-    if (self.has_moved):
+    if (self.hasMoved):
       moves.append((self.row + self.direction, self.col))
     else:
       moves.append((self.row + (self.direction * 2), self.col))
