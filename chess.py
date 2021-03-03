@@ -34,17 +34,19 @@ class Chess:
           pos = pygame.mouse.get_pos()
           
           # Get row and column
-          row = (pos[0] - self.board.padding) // self.board.squareSize
-          col = (pos[1] - self.board.padding) // self.board.squareSize
+          col = int((pos[0] - self.board.padding) // self.board.squareSize)
+          row = int((pos[1] - self.board.padding) // self.board.squareSize)
   
-          if (row >= 0 and row < 8):
-            if (col >= 0 and col < 8):
-              print(row, col)
+          if (col >= 0 and col < 8):
+            if (row >= 0 and row < 8):
+              print(col, row)
+              print(self.board.getPiece((col, row)))
+              #print(self.board.getPiece((row, col)).getPossibleMoves())
               
     
           #self.board.draw()
-    #moves = self.board.getPiece((0, 1)).getPossibleMoves()
-    #print(self.board.sanitizeMoves(moves))
+          #moves = self.board.getPiece((0, 1)).getPossibleMoves()
+          #print(self.board.sanitizeMoves(moves))
     # Update here (input, moving)
     pass
     
