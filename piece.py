@@ -9,7 +9,7 @@ class Piece:
   def getPosition(self):
     return (self.row, self.col)
     
-  def sanitizeMoves(self, moves):
+  def _sanitizeMoves(self, moves):
     i = 0
     while (i < len(moves)):
       if (moves[i][0] < 0 or moves[i][0] > 7):
@@ -42,6 +42,37 @@ class Pawn(Piece):
       moves.append((self.row + (self.direction * 2), self.col))
       moves.append((self.row + self.direction, self.col))
       
-    moves = self.sanitizeMoves(moves)
-    print(moves)
+    moves = self._sanitizeMoves(moves)
+    
+    return moves
+    
+class Knight(Piece):
+  def __init__(self, color, row, col):
+    super().__init__(color, row, col)
+    
+  def getPossibleMoves(self):
+    row = self.row
+    col = self.col
   
+    moves = []
+  
+    # Up
+    moves.append((row - 2, col - 1))
+    moves.append((row - 2, col + 1))
+    
+    # Down
+    moves.append((row + 2, col - 1))
+    moves.append((row + 2, col + 1))
+    
+    # Left
+    moves.append((row - 1, col - 2))
+    moves.append((row - 1, col + 2))
+    
+    # Right
+    moves.append((row + 1, col - 2))
+    moves.append((row + 1, col + 2))
+    
+    moves = self._sanitizeMoves(moves)
+    
+    return moves
+    

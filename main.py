@@ -1,6 +1,7 @@
 import piece
 
-test = piece.Pawn("black", 1, 0)
+pawn = piece.Pawn("black", 1, 0)
+knight = piece.Knight("black", 7, 6)
 
 chessboard = [
   ["r", "n", "b", "q", "k", "b", "n", "r"],
@@ -25,28 +26,5 @@ def getName(pos):
   
   return chessboard[row][col]
 
-def getPossibleMoves(pos):
-  row = pos[0]
-  col = pos[1]
-  
-  moves = []
-  
-  # N
-  if (chessboard[row][col] == "N"):
-    # Up
-    moves.append((row - 2, col - 1))
-    moves.append((row - 2, col + 1))
-    
-    # Down
-    moves.append((row + 2, col - 1))
-    moves.append((row + 2, col + 1))
-    
-    # Left
-    moves.append((row - 1, col - 2))
-    moves.append((row - 1, col + 2))
-    
-    # Right
-    moves.append((row + 1, col - 2))
-    moves.append((row + 1, col + 2))
-
-test.getPossibleMoves()
+#pawn.getPossibleMoves()
+print(knight.getPossibleMoves())
