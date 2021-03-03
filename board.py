@@ -1,3 +1,4 @@
+import shared
 from piece import *
 # Import piece
 # Initialize board with all pieces
@@ -53,5 +54,10 @@ class Board:
       
       print("\n")
     #pprint(self.board)
-    pass
-
+  
+  def isPositionFree(self, pos):
+    row = pos[0]
+    col = pos[1]
+    
+    return shared.chessboard.board[row][col] == None
+    

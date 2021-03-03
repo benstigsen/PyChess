@@ -1,4 +1,4 @@
-global board
+import shared
 
 class Piece:
   isWhite = False
@@ -26,9 +26,10 @@ class Piece:
         moves.pop(i)
       elif (moves[i][1] < 0 or moves[i][1] > 7):
         moves.pop(i)
-      # Check if position is free (and if it's a "friendly" piece
-      #elif (not isPositionFree(moves[i])):
-        #moves.pop(i)
+      # Check if position is free
+      # TO-DO: Check if it's a friendly piece
+      elif (not shared.chessboard.isPositionFree(moves[i])):
+        moves.pop(i)
       else:
         i += 1
         
