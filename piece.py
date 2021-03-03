@@ -1,5 +1,3 @@
-import shared
-
 class Piece:
   isWhite = False
 

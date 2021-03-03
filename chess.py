@@ -1,5 +1,4 @@
 import draw
-import shared
 import board
 #import piece
 
