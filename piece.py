@@ -40,6 +40,9 @@ class Piece:
     
   def getPosition(self):
     return (self.row, self.col)
+    
+  def isFriendly(self, other):
+    return (self.isWhite == other.isWhite)
 
 # Check if checked
 class King(Piece):
