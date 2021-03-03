@@ -65,14 +65,14 @@ class Board:
         posX = self.padding + (x * self.squareSize)
         posY = self.padding + (y * self.squareSize)
         
-        pygame.draw.rect(config.screen, (238, 238, 210), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
+        pygame.draw.rect(config.screen, (218, 218, 190), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
         
     for x in range(1, 8, 2):
       for y in range(1, 8, 2):
         posX = self.padding + (x * self.squareSize)
         posY = self.padding + (y * self.squareSize)
         
-        pygame.draw.rect(config.screen, (238, 238, 210), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
+        pygame.draw.rect(config.screen, (218, 218, 190), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
     
     # Draw pieces
     for row in self.board:
