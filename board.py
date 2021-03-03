@@ -1,11 +1,24 @@
+import config
+import pygame
+
 from piece import *
 # Import piece
 # Initialize board with all pieces
 # Display board
 
+WIDTH, HEIGHT = config.windowSize
+
 class Board:
-  def __init__(self):
+  def __init__(self, squareSize = (WIDTH / 9), padding = (WIDTH / 18)):
     board = []
+    
+    self.squareSize = squareSize
+    self.padding = padding
+    
+    self.region = pygame.Rect(
+      padding, padding, WIDTH - squareSize, HEIGHT - squareSize
+    )
+    
     
     # Black
     Piece.isWhite = False
@@ -44,15 +57,22 @@ class Board:
     pass
     
   def draw(self):
-    for row in self.board:
-      for col in row:
-        if (col):
-          print(f"{col.name}, ", end="")
-        else:
-          print("., ", end="")
-      
-      print("\n")
-    #pprint(self.board)
+    # Draw board
+    pygame.draw.rect(config.screen, (118, 150, 86), self.region)
+    
+    for x in range(0, 8, 2):
+      for y in range(0, 8, 2):
+        posX = self.padding + (x * self.squareSize)
+        posY = self.padding + (y * self.squareSize)
+        
+        pygame.draw.rect(config.screen, (238, 238, 210), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
+        
+    for x in range(1, 8, 2):
+      for y in range(1, 8, 2):
+        posX = self.padding + (x * self.squareSize)
+        posY = self.padding + (y * self.squareSize)
+        
+        pygame.draw.rect(config.screen, (238, 238, 210), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
   
   def isPositionFree(self, pos):
     row = pos[0]

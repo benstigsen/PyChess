@@ -1,17 +1,9 @@
 import draw
 import board
 import pygame
+import config
 from math import ceil
 #import piece
-
-WIDTH  = 500
-HEIGHT = 500
-screen = None
-
-squareSize = WIDTH / 9
-boardPadding = squareSize / 2
-
-boardRegion = pygame.Rect(boardPadding, boardPadding, WIDTH - squareSize, HEIGHT - squareSize)
 
 class Chess:
   def __init__(self):
@@ -42,8 +34,8 @@ class Chess:
           pos = pygame.mouse.get_pos()
           
           # Get row and column
-          row = (pos[0] - boardPadding) // squareSize
-          col = (pos[1] - boardPadding) // squareSize
+          row = (pos[0] - self.board.padding) // self.board.squareSize
+          col = (pos[1] - self.board.padding) // self.board.squareSize
   
           if (row >= 0 and row < 8):
             if (col >= 0 and col < 8):
@@ -57,18 +49,7 @@ class Chess:
     pass
     
   def _draw(self):
-    # Draw board
-    pygame.draw.rect(screen, (118, 150, 86), boardRegion)
-    
-    for x in range(0, 8, 2):
-      for y in range(0, 8, 2):
-        position = pygame.Rect(boardPadding + (x * squareSize), boardPadding + y * squareSize, squareSize, squareSize)
-        pygame.draw.rect(screen, (238, 238, 210), position)
-        
-    for x in range(1, 8, 2):
-      for y in range(1, 8, 2):
-        position = pygame.Rect(boardPadding + (x * squareSize), boardPadding + y * squareSize, squareSize, squareSize)
-        pygame.draw.rect(screen, (238, 238, 210), position)
+    self.board.draw()
     
     pygame.display.flip()
     
@@ -77,7 +58,7 @@ class Chess:
     
 if __name__ == "__main__":
   pygame.init()
-  screen = pygame.display.set_mode([WIDTH, HEIGHT])
+  config.screen = pygame.display.set_mode(config.windowSize)
   
   game = Chess()
   game.run()
