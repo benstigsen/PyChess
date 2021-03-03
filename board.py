@@ -20,9 +20,7 @@ class Board:
     self.squareAvailable = pygame.Surface((squareSize, squareSize), pygame.SRCALPHA)
     pygame.draw.rect(self.squareAvailable, (255, 0, 0, 76), self.squareAvailable.get_rect())
     
-    self.region = pygame.Rect(
-      padding, padding, WIDTH - squareSize, HEIGHT - squareSize
-    )
+    self.region = (padding, padding, WIDTH - squareSize, HEIGHT - squareSize)
     
     # Black
     Piece.isWhite = False
@@ -65,22 +63,20 @@ class Board:
     if (self.selected):
       self.drawAvailableMoves()
     
-    pygame.draw.rect(config.screen, (118, 150, 86), self.region)
-    
-    for x in range(0, 8, 2):
-      for y in range(0, 8, 2):
-        posX = self.padding + (x * self.squareSize)
-        posY = self.padding + (y * self.squareSize)
+    i = 0
+    for col in range(0, 8):
+      for row in range(0, 8):
+        posX = self.padding + (col * self.squareSize)
+        posY = self.padding + (row * self.squareSize)
         
-        pygame.draw.rect(config.screen, (218, 218, 190), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
+        if (i % 2 == 0):
+          pygame.draw.rect(config.screen, (118, 150, 86), (posX, posY, self.squareSize, self.squareSize))
+        else:
+          pygame.draw.rect(config.screen, (218, 218, 190), (posX, posY, self.squareSize, self.squareSize))
         
-    for x in range(1, 8, 2):
-      for y in range(1, 8, 2):
-        posX = self.padding + (x * self.squareSize)
-        posY = self.padding + (y * self.squareSize)
-        
-        pygame.draw.rect(config.screen, (218, 218, 190), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
-    
+        i += 1
+      i -= 1
+
     # Draw pieces
     for row in self.board:
       for piece in row:
