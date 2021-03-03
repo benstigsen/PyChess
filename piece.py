@@ -41,6 +41,7 @@ class Piece:
   def getPosition(self):
     return (self.row, self.col)
 
+# Check if checked
 class King(Piece):
   def __init__(self, row, col):
     super().__init__("K", row, col)
@@ -98,10 +99,41 @@ class Queen(Piece):
 class Rook(Piece):
   def __init__(self, row, col):
     super().__init__("R", row, col)
+    
+  def getPossibleMoves(self):
+    row = self.row
+    col = self.col
+    
+    moves = []
+    
+    for i in range(1, 8):
+      # Horizontal
+      moves.append((row + i, col))
+      moves.append((row - i, col))
+      
+      # Vertical
+      moves.append((row, col + i))
+      moves.append((row, col - i))
+    
+    return moves
 
 class Bishop(Piece):
   def __init__(self, row, col):
     super().__init__("B", row, col)
+    
+    def getPossibleMoves(self):
+      row = self.row
+      col = self.col
+    
+      moves = []
+      
+      for i in range(1, 8):
+        moves.append((row + i, col + i))
+        moves.append((row - i, col + i))
+        moves.append((row + i, col - i))
+        moves.append((row - i, col - i))
+      
+      return moves
 
 class Knight(Piece):
   def __init__(self, row, col):
