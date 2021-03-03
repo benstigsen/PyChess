@@ -1,4 +1,3 @@
-import shared
 from piece import *
 # Import piece
 # Initialize board with all pieces
@@ -59,5 +58,28 @@ class Board:
     row = pos[0]
     col = pos[1]
     
-    return shared.chessboard.board[row][col] == None
+    return self.board[row][col] == None
     
+  def getPiece(self, pos):
+    row = pos[0]
+    col = pos[1]
+    
+    return self.board[row][col]
+    
+  def sanitizeMoves(self, moves):
+    i = 0
+    while (i < len(moves)):
+      # Check if out-of-bounds
+      if (moves[i][0] < 0 or moves[i][0] > 7):
+        moves.pop(i)
+      elif (moves[i][1] < 0 or moves[i][1] > 7):
+        moves.pop(i)
+      # Check if position is free
+      # TO-DO: Check if it's a friendly piece
+      elif (not self.isPositionFree(moves[i])):
+        moves.pop(i)
+      else:
+        i += 1
+        
+    return moves
+
