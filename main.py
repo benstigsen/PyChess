@@ -1,18 +1,12 @@
+from board import Board
 import piece
 
-pawn = piece.Pawn("black", 1, 0)
-knight = piece.Knight("black", 7, 6)
+chessboard = Board()
+chessboard.draw()
 
-chessboard = [
-  ["r", "n", "b", "q", "k", "b", "n", "r"],
-  ["p", "p", "p", "p", "p", "p", "p", "p"],
-  [".", ".", ".", ".", ".", ".", ".", "."],
-  [".", ".", ".", ".", ".", ".", ".", "."],
-  [".", ".", ".", ".", ".", ".", ".", "."],
-  [".", ".", ".", ".", ".", ".", ".", "."],
-  ["P", "P", "P", "P", "P", "P", "P", "P"],
-  ["R", "N", "B", "Q", "K", "B", "N", "R"]
-]
+#pawn = piece.Pawn("black", 1, 0)
+#knight = piece.Knight("black", 7, 6)
+
 
 def isPositionFree(pos):
   row = pos[0]
@@ -27,4 +21,4 @@ def getName(pos):
   return chessboard[row][col]
 
 #pawn.getPossibleMoves()
-print(knight.getPossibleMoves())
+#print(knight.getPossibleMoves())
