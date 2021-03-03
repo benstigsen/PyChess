@@ -8,20 +8,18 @@ from math import ceil
 class Chess:
   def __init__(self):
     self.board = board.Board()
+    self.drawQueue = [[self.board.draw]]
 
   def run(self):
     self.running = True
-    self._draw()
-    
+    self.board.draw()
+    draw = True
+
     while self.running:
-      draw = self._update()
-      
       if (draw):
         self._draw()
-    
-    
-      #_update()
-      #_draw()  
+        
+      draw = self._update()
   
   def _update(self):
     events = pygame.event.get()
@@ -43,20 +41,20 @@ class Chess:
               
               print(col, row)
               if (piece):
-                print(self.board.sanitizeMoves(piece, piece.getPossibleMoves()))
-              
-              #print(self.board.getPiece((col, row)))
-              
-    
-          #self.board.draw()
-          #moves = self.board.getPiece((0, 1)).getPossibleMoves()
-          #print(self.board.sanitizeMoves(moves))
-    # Update here (input, moving)
-    pass
+                moves = piece.getPossibleMoves()
+                moves = self.board.sanitizeMoves(piece, moves)
+                self.drawQueue.append([self.board.draw])
+                self.drawQueue.append([self.board.drawAvailableMoves, moves])
+                
+                return True
     
   def _draw(self):
-    self.board.draw()
-    
+    for item in self.drawQueue:
+      if (len(item) == 1):
+         item[0]()
+      else:
+        item[0](*item[1:])
+        
     pygame.display.flip()
     
   def _getInput(self):

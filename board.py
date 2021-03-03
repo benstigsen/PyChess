@@ -13,7 +13,12 @@ class Board:
     board = []
     
     self.squareSize = squareSize
-    self.padding = padding
+    self.padding  = padding
+    self.selected = None
+    
+    # See-through transparent square when move is available
+    self.squareAvailable = pygame.Surface((squareSize, squareSize), pygame.SRCALPHA)
+    pygame.draw.rect(self.squareAvailable, (255, 0, 0, 76), self.squareAvailable.get_rect())
     
     self.region = pygame.Rect(
       padding, padding, WIDTH - squareSize, HEIGHT - squareSize
@@ -57,6 +62,9 @@ class Board:
     
   # Draw board
   def draw(self):
+    if (self.selected):
+      self.drawAvailableMoves()
+    
     pygame.draw.rect(config.screen, (118, 150, 86), self.region)
     
     for x in range(0, 8, 2):
@@ -80,6 +88,14 @@ class Board:
           posX = self.padding + (piece.col * self.squareSize)
           posY = self.padding + (piece.row * self.squareSize)
           config.screen.blit(piece.image, (posX, posY + 2))
+  
+  def drawAvailableMoves(self, moves):
+    for pos in moves:
+      x = self.padding + (pos[0] * self.squareSize)
+      y = self.padding + (pos[1] * self.squareSize)
+      
+      #pygame.draw.rect(config.screen, (255, 0, 0, 0.1), pygame.Rect(x, y, self.squareSize, self.squareSize))
+      config.screen.blit(self.squareAvailable, (x, y))
   
   def isPositionFree(self, pos):
     col = pos[0]
