@@ -1,7 +1,7 @@
 import pygame
 import config
 
-images = {}
+images = [{}, {}]
 
 class Piece:
   isWhite = False
@@ -19,22 +19,27 @@ class Piece:
     self.isWhite = Piece.isWhite
     #print(self.name)
     
-    
-    if (name.lower() in images):
-      self.image = images[name.lower()]
+    # Load white and black pieces
+    if (self.isWhite):
+      if (name.lower() in images[0]):
+        self.image = images[0][name.lower()]
+      else:
+        self.image = pygame.image.load(f"assets/img/{name.lower()}.png")
+        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.image.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
+        self.image.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_ADD)
+        
+        images[0][name.lower()] = self.image
     else:
-      self.image = pygame.image.load(f"assets/img/{name.lower()}.png")
-      self.image = pygame.transform.scale(self.image, (50, 50))
-      images[name.lower()] = self.image
+      if (name.lower() in images[1]):
+        self.image = images[1][name.lower()]
+      else:
+        self.image = pygame.image.load(f"assets/img/{name.lower()}.png")
+        self.image = pygame.transform.scale(self.image, (50, 50))
+        images[1][name.lower()] = self.image
     
   def getPosition(self):
     return (self.row, self.col)
-    
-  def update(self):
-    pass
-    
-  def draw(self):
-    pass
 
 class King(Piece):
   def __init__(self, row, col):
