@@ -6,14 +6,14 @@ images = [{}, {}]
 class Piece:
   isWhite = False
 
-  def __init__(self, name, row, col):
+  def __init__(self, name, col, row):
     if (Piece.isWhite):
       self.name = name.upper()
     else:
       self.name = name.lower()
       
-    self.row = row
     self.col = col
+    self.row = row
     
     self.hasMoved = False
     self.isWhite = Piece.isWhite
@@ -39,15 +39,15 @@ class Piece:
         images[1][name.lower()] = self.image
     
   def getPosition(self):
-    return (self.row, self.col)
+    return (self.col, self.row)
     
   def isFriendly(self, other):
     return (self.isWhite == other.isWhite)
 
 # Check if checked
 class King(Piece):
-  def __init__(self, row, col):
-    super().__init__("K", row, col)
+  def __init__(self, col, row):
+    super().__init__("K", col, row)
 
   def getPossibleMoves(self):
     row = self.row
@@ -56,119 +56,119 @@ class King(Piece):
     moves = []
     
     # Vertical
-    moves.append((row + 1, col))
-    moves.append((row - 1, col))
+    moves.append((col, row + 1))
+    moves.append((col, row - 1))
   
     # Horizontal
-    moves.append((row, col + 1))
-    moves.append((row, col - 1))
+    moves.append((col + 1, row))
+    moves.append((col - 1, row))
     
     # Diagonal
-    moves.append((row + 1, col + 1))
-    moves.append((row + 1, col - 1))
-    moves.append((row - 1, col + 1))
-    moves.append((row - 1, col - 1))
+    moves.append((col + 1, row + 1))
+    moves.append((col - 1, row + 1))
+    moves.append((col + 1, row - 1))
+    moves.append((col - 1, row - 1))
     
     return moves
 
 # TO-DO: Get blocking pieces
 class Queen(Piece):
-  def __init__(self, row, col):
-    super().__init__("Q", row, col)
+  def __init__(self, col, row):
+    super().__init__("Q", col, row)
     
   def getPossibleMoves(self):
-    row = self.row
     col = self.col
+    row = self.row
     
     moves = []
     
     for i in range(1, 8):
       # Vertical
-      moves.append((row - i, col))
-      moves.append((row + i, col))
+      moves.append((col, row - i))
+      moves.append((col, row + i))
       
       # Horizontal
-      moves.append((row, col + i))
-      moves.append((row, col - i))
+      moves.append((col + i, row))
+      moves.append((col - i, row))
       
       # Diagonal
-      moves.append((row + i, col + i))
-      moves.append((row + i, col - i))
-      moves.append((row - i, col + i))
-      moves.append((row - i, col - i))
+      moves.append((col + i, row + i))
+      moves.append((col - i, row + i))
+      moves.append((col + i, row - i))
+      moves.append((col - i, row - i))
     
     return moves
     
 class Rook(Piece):
-  def __init__(self, row, col):
-    super().__init__("R", row, col)
+  def __init__(self, col, row):
+    super().__init__("R", col, row)
     
   def getPossibleMoves(self):
-    row = self.row
     col = self.col
+    row = self.row
     
     moves = []
     
     for i in range(1, 8):
       # Horizontal
-      moves.append((row + i, col))
-      moves.append((row - i, col))
+      moves.append((col, row + i))
+      moves.append((col, row - i))
       
       # Vertical
-      moves.append((row, col + i))
-      moves.append((row, col - i))
+      moves.append((col + i, row))
+      moves.append((col - i, row))
     
     return moves
 
 class Bishop(Piece):
-  def __init__(self, row, col):
-    super().__init__("B", row, col)
+  def __init__(self, col, row):
+    super().__init__("B", col, row)
     
-    def getPossibleMoves(self):
-      row = self.row
-      col = self.col
+  def getPossibleMoves(self):
+    col = self.col
+    row = self.row
+  
+    moves = []
     
-      moves = []
-      
-      for i in range(1, 8):
-        moves.append((row + i, col + i))
-        moves.append((row - i, col + i))
-        moves.append((row + i, col - i))
-        moves.append((row - i, col - i))
-      
-      return moves
+    for i in range(1, 8):
+      moves.append((col + i, row + i))
+      moves.append((col + i, row - i))
+      moves.append((col - i, row + i))
+      moves.append((col - i, row - i))
+    
+    return moves
 
 class Knight(Piece):
-  def __init__(self, row, col):
-    super().__init__("N", row, col)
+  def __init__(self, col, row):
+    super().__init__("N", col, row)
       
   def getPossibleMoves(self):
-    row = self.row
     col = self.col
+    row = self.row
   
     moves = []
   
     # Up
-    moves.append((row - 2, col - 1))
-    moves.append((row - 2, col + 1))
+    moves.append((col - 1, row - 2))
+    moves.append((col + 1, row - 2))
     
     # Down
-    moves.append((row + 2, col - 1))
-    moves.append((row + 2, col + 1))
+    moves.append((col - 1, row + 2))
+    moves.append((col + 1, row + 2))
     
     # Left
-    moves.append((row - 1, col - 2))
-    moves.append((row - 1, col + 2))
+    moves.append((col - 2, row - 1))
+    moves.append((col + 2, row - 1))
     
     # Right
-    moves.append((row + 1, col - 2))
-    moves.append((row + 1, col + 2))
+    moves.append((col - 2, row + 1))
+    moves.append((col + 2, row + 1))
 
     return moves
   
 class Pawn(Piece):
-  def __init__(self, row, col):
-    super().__init__("P", row, col)
+  def __init__(self, col, row):
+    super().__init__("P", col, row)
     
     # -1 for white, 1 for black
     if (self.isWhite):
@@ -181,10 +181,10 @@ class Pawn(Piece):
     
     # Change options depending on it having moved or not
     if (self.hasMoved):
-      moves.append((self.row + self.direction, self.col))
+      moves.append((self.col, self.row + self.direction))
     else:
-      moves.append((self.row + (self.direction * 2), self.col))
-      moves.append((self.row + self.direction, self.col))
+      moves.append((self.col, self.row + (self.direction * 2)))
+      moves.append((self.col, self.row + self.direction))
     
     return moves
     

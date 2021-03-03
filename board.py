@@ -19,19 +19,18 @@ class Board:
       padding, padding, WIDTH - squareSize, HEIGHT - squareSize
     )
     
-    
     # Black
     Piece.isWhite = False
     
     board.append([
-      Rook(0, 0),  Knight(0, 1), Bishop(0, 2), King(0, 3), 
-      Queen(0, 4), Bishop(0, 5), Knight(0, 6), Rook(0, 7)
+      Rook(0, 0),  Knight(1, 0), Bishop(2, 0), King(3, 0), 
+      Queen(4, 0), Bishop(5, 0), Knight(6, 0), Rook(7, 0)
     ])
     
     board.append([])
     
     for i in range(8):
-      board[1].append(Pawn(1, i))
+      board[1].append(Pawn(i, 1))
     
     # Empty fields
     for i in range(4):
@@ -44,11 +43,11 @@ class Board:
     
     board.append([])
     for i in range(8):
-      board[6].append(Pawn(6, i))
+      board[6].append(Pawn(i, 6))
     
     board.append([
-      Rook(7, 0),  Knight(7, 1), Bishop(7, 2), King(7, 3), 
-      Queen(7, 4), Bishop(7, 5), Knight(7, 6), Rook(7, 7)
+      Rook(0, 7),  Knight(1, 7), Bishop(2, 7), King(3, 7), 
+      Queen(4, 7), Bishop(5, 7), Knight(6, 7), Rook(7, 7)
     ])
     
     self.board = board
@@ -81,19 +80,18 @@ class Board:
           posX = self.padding + (piece.col * self.squareSize)
           posY = self.padding + (piece.row * self.squareSize)
           config.screen.blit(piece.image, (posX, posY + 2))
-          #pygame.image(piece.row * )
-          pass
   
   def isPositionFree(self, pos):
     col = pos[0]
     row = pos[1]
     
-    return self.board[row][col] == None
+    return (self.board[row][col] == None)
     
   def getPiece(self, pos):
     col = pos[0]
     row = pos[1]
     
+    # [row][col] since the array is [y][x]
     return self.board[row][col]
     
   def sanitizeMoves(self, piece, moves):

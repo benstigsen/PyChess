@@ -39,9 +39,13 @@ class Chess:
   
           if (col >= 0 and col < 8):
             if (row >= 0 and row < 8):
+              piece = self.board.getPiece((col, row))
+              
               print(col, row)
-              print(self.board.getPiece((col, row)))
-              #print(self.board.getPiece((row, col)).getPossibleMoves())
+              if (piece):
+                print(self.board.sanitizeMoves(piece, piece.getPossibleMoves()))
+              
+              #print(self.board.getPiece((col, row)))
               
     
           #self.board.draw()
