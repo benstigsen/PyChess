@@ -42,30 +42,22 @@ class Piece:
   #def move(self):
     #self.row = 
 
-class Pawn(Piece):
+class King(Piece):
   def __init__(self, row, col, white = False):
-    super().__init__("P", row, col, white)
+    super().__init__("K", row, col, white)
+
+class Queen(Piece):
+  def __init__(self, row, col, white = False):
+    super().__init__("Q", row, col, white)
     
-    # -1 for white, 1 for black
-    if (white):
-      self.direction = -1
-    else:
-      self.direction = 1
-    
-  def getPossibleMoves(self):    
-    moves = []
-    
-    # Change options depending on it having moved or not
-    if (self.has_moved):
-      moves.append((self.row + self.direction, self.col))
-    else:
-      moves.append((self.row + (self.direction * 2), self.col))
-      moves.append((self.row + self.direction, self.col))
-      
-    moves = self._sanitizeMoves(moves)
-    
-    return moves
-    
+class Rook(Piece):
+  def __init__(self, row, col, white = False):
+    super().__init__("R", row, col, white)
+
+class Bishop(Piece):
+  def __init__(self, row, col, white = False):
+    super().__init__("B", row, col, white)
+
 class Knight(Piece):
   def __init__(self, row, col, white = False):
     super().__init__("N", row, col, white)
@@ -92,6 +84,30 @@ class Knight(Piece):
     moves.append((row + 1, col - 2))
     moves.append((row + 1, col + 2))
     
+    moves = self._sanitizeMoves(moves)
+    
+    return moves
+  
+class Pawn(Piece):
+  def __init__(self, row, col, white = False):
+    super().__init__("P", row, col, white)
+    
+    # -1 for white, 1 for black
+    if (white):
+      self.direction = -1
+    else:
+      self.direction = 1
+    
+  def getPossibleMoves(self):    
+    moves = []
+    
+    # Change options depending on it having moved or not
+    if (self.has_moved):
+      moves.append((self.row + self.direction, self.col))
+    else:
+      moves.append((self.row + (self.direction * 2), self.col))
+      moves.append((self.row + self.direction, self.col))
+      
     moves = self._sanitizeMoves(moves)
     
     return moves
