@@ -9,18 +9,21 @@ class Chess:
   def __init__(self):
     self.board = board.Board()
     self.drawQueue = [[self.board.draw]]
-
+  
+  # Run (start game)
   def run(self):
     self.running = True
     self.board.draw()
     draw = True
-
+    
+    # Run loop
     while self.running:
       if (draw):
         self._draw()
         
       draw = self._update()
   
+  # Update (events, positions, moves, draw queue)
   def _update(self):
     events = pygame.event.get()
     
@@ -39,7 +42,6 @@ class Chess:
             if (row >= 0 and row < 8):
               piece = self.board.getPiece((col, row))
               
-              print(col, row)
               if (piece):
                 moves = piece.getPossibleMoves()
                 moves = self.board.sanitizeMoves(piece, moves)
@@ -47,6 +49,8 @@ class Chess:
                 self.drawQueue.append([self.board.drawAvailableMoves, moves])
                 
                 return True
+                
+    return False
     
   def _draw(self):
     for item in self.drawQueue:
@@ -56,9 +60,6 @@ class Chess:
         item[0](*item[1:])
         
     pygame.display.flip()
-    
-  def _getInput(self):
-    pass
     
 if __name__ == "__main__":
   pygame.init()
