@@ -1,3 +1,6 @@
+import pygame
+import config
+
 class Piece:
   isWhite = False
 
@@ -12,6 +15,9 @@ class Piece:
     
     self.hasMoved = False
     self.isWhite = Piece.isWhite
+    #print(self.name)
+    self.image = pygame.image.load(f"assets/img/{name.lower()}.png")
+    self.image = pygame.transform.scale(self.image, (50, 50))
     
   def getPosition(self):
     return (self.row, self.col)
@@ -21,6 +27,7 @@ class Piece:
     
   def draw(self):
     pass
+    #config.screen.blit(self.image, ())
     
   #def move(self):
     #self.row = 

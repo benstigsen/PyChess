@@ -56,8 +56,8 @@ class Board:
   def update(self):
     pass
     
+  # Draw board
   def draw(self):
-    # Draw board
     pygame.draw.rect(config.screen, (118, 150, 86), self.region)
     
     for x in range(0, 8, 2):
@@ -73,6 +73,16 @@ class Board:
         posY = self.padding + (y * self.squareSize)
         
         pygame.draw.rect(config.screen, (238, 238, 210), pygame.Rect(posX, posY, self.squareSize, self.squareSize))
+    
+    # Draw pieces
+    for row in self.board:
+      for piece in row:
+        if (piece):
+          posX = self.padding + (piece.col * self.squareSize)
+          posY = self.padding + (piece.row * self.squareSize)
+          config.screen.blit(piece.image, (posX, posY + 2))
+          #pygame.image(piece.row * )
+          pass
   
   def isPositionFree(self, pos):
     row = pos[0]
