@@ -62,9 +62,33 @@ class King(Piece):
     
     return moves
 
+# TO-DO: Get blocking pieces
 class Queen(Piece):
   def __init__(self, row, col):
     super().__init__("Q", row, col)
+    
+  def getPossibleMoves(self):
+    row = self.row
+    col = self.col
+    
+    moves = []
+    
+    for i in range(1, 8):
+      # Vertical
+      moves.append((row - i, col))
+      moves.append((row + i, col))
+      
+      # Horizontal
+      moves.append((row, col + i))
+      moves.append((row, col - i))
+      
+      # Diagonal
+      moves.append((row + i, col + i))
+      moves.append((row + i, col - i))
+      moves.append((row - i, col + i))
+      moves.append((row - i, col - i))
+    
+    return moves
     
 class Rook(Piece):
   def __init__(self, row, col):
