@@ -2,9 +2,6 @@ import config
 import pygame
 
 from piece import *
-# Import piece
-# Initialize board with all pieces
-# Display board
 
 WIDTH, HEIGHT = config.windowSize
 
@@ -30,8 +27,8 @@ class Board:
       Queen(4, 0), Bishop(5, 0), Knight(6, 0), Rook(7, 0)
     ])
     
+    # Pawns
     board.append([])
-    
     for i in range(8):
       board[1].append(Pawn(i, 1))
     
@@ -44,6 +41,7 @@ class Board:
     # White
     Piece.isWhite = True
     
+    # Pawns
     board.append([])
     for i in range(8):
       board[6].append(Pawn(i, 6))
@@ -58,11 +56,8 @@ class Board:
   def update(self):
     pass
     
-  # Draw board
-  def draw(self):
-    if (self.selected):
-      self.drawAvailableMoves()
-    
+  def drawChessboard(self):
+    # Draw chessboard
     i = 0
     for col in range(0, 8):
       for row in range(0, 8):
@@ -76,14 +71,6 @@ class Board:
         
         i += 1
       i -= 1
-
-    # Draw pieces
-    for row in self.board:
-      for piece in row:
-        if (piece):
-          posX = self.padding + (piece.col * self.squareSize)
-          posY = self.padding + (piece.row * self.squareSize)
-          config.screen.blit(piece.image, (posX, posY + 2))
   
   def drawAvailableMoves(self, moves):
     for pos in moves:
@@ -92,6 +79,15 @@ class Board:
       
       #pygame.draw.rect(config.screen, (255, 0, 0, 0.1), pygame.Rect(x, y, self.squareSize, self.squareSize))
       config.screen.blit(self.squareAvailable, (x, y))
+      
+  def drawChessPieces(self):
+    # Draw pieces
+    for row in self.board:
+      for piece in row:
+        if (piece):
+          posX = self.padding + (piece.col * self.squareSize)
+          posY = self.padding + (piece.row * self.squareSize)
+          config.screen.blit(piece.image, (posX, posY + 2))
   
   def isPositionFree(self, pos):
     col = pos[0]

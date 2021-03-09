@@ -1,4 +1,3 @@
-import draw
 import board
 import pygame
 import config
@@ -8,12 +7,11 @@ from math import ceil
 class Chess:
   def __init__(self):
     self.board = board.Board()
-    self.drawQueue = [[self.board.draw]]
+    self.drawQueue = [[self.board.drawChessboard], [self.board.drawChessPieces]]
   
   # Run (start game)
   def run(self):
     self.running = True
-    self.board.draw()
     draw = True
     
     # Run loop
@@ -30,8 +28,9 @@ class Chess:
     for event in events:
       self.running = (event.type != pygame.QUIT)
       
+      # On Mouse Click
       if (event.type == pygame.MOUSEBUTTONDOWN):
-        if (event.button == 1): # Left click
+        if (event.button == 1):
           pos = pygame.mouse.get_pos()
           
           # Get row and column
@@ -42,11 +41,13 @@ class Chess:
             if (row >= 0 and row < 8):
               piece = self.board.getPiece((col, row))
               
+              # TO-DO: getPossibleMoves should remove moves from whenever the pieces aren't available
               if (piece):
                 moves = piece.getPossibleMoves()
-                moves = self.board.sanitizeMoves(piece, moves)
-                self.drawQueue.append([self.board.draw])
+                moves = self.board.sanitizeMoves(piece, moves)      # 2D array for directions [[vertical, ...], [horizontal, ...]]
+                self.drawQueue.append([self.board.drawChessboard])
                 self.drawQueue.append([self.board.drawAvailableMoves, moves])
+                self.drawQueue.append([self.board.drawChessPieces])
                 
                 return True
                 
