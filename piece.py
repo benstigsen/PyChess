@@ -69,7 +69,7 @@ class King(Piece):
     moves.append((col + 1, row - 1))
     moves.append((col - 1, row - 1))
     
-    return moves
+    return (moves, False)
 
 # TO-DO: Get blocking pieces
 class Queen(Piece):
@@ -80,24 +80,24 @@ class Queen(Piece):
     col = self.col
     row = self.row
     
-    moves = []
+    moves = [[], [], [], [], [], [], [], []]
     
     for i in range(1, 8):
       # Vertical
-      moves.append((col, row - i))
-      moves.append((col, row + i))
+      moves[0].append((col, row - i))
+      moves[1].append((col, row + i))
       
       # Horizontal
-      moves.append((col + i, row))
-      moves.append((col - i, row))
+      moves[2].append((col + i, row))
+      moves[3].append((col - i, row))
       
       # Diagonal
-      moves.append((col + i, row + i))
-      moves.append((col - i, row + i))
-      moves.append((col + i, row - i))
-      moves.append((col - i, row - i))
+      moves[4].append((col + i, row + i))
+      moves[5].append((col - i, row + i))
+      moves[6].append((col + i, row - i))
+      moves[7].append((col - i, row - i))
     
-    return moves
+    return (moves, True)
     
 class Rook(Piece):
   def __init__(self, col, row):
@@ -107,18 +107,18 @@ class Rook(Piece):
     col = self.col
     row = self.row
     
-    moves = []
+    moves = [[], [], [], []]
     
     for i in range(1, 8):
       # Horizontal
-      moves.append((col, row + i))
-      moves.append((col, row - i))
+      moves[0].append((col, row + i))
+      moves[1].append((col, row - i))
       
       # Vertical
-      moves.append((col + i, row))
-      moves.append((col - i, row))
+      moves[2].append((col + i, row))
+      moves[3].append((col - i, row))
     
-    return moves
+    return (moves, True)
 
 class Bishop(Piece):
   def __init__(self, col, row):
@@ -128,15 +128,15 @@ class Bishop(Piece):
     col = self.col
     row = self.row
   
-    moves = []
+    moves = [[], [], [], []]
     
     for i in range(1, 8):
-      moves.append((col + i, row + i))
-      moves.append((col + i, row - i))
-      moves.append((col - i, row + i))
-      moves.append((col - i, row - i))
+      moves[0].append((col + i, row + i))
+      moves[1].append((col + i, row - i))
+      moves[2].append((col - i, row + i))
+      moves[3].append((col - i, row - i))
     
-    return moves
+    return (moves, True)
 
 class Knight(Piece):
   def __init__(self, col, row):
@@ -164,7 +164,7 @@ class Knight(Piece):
     moves.append((col - 2, row + 1))
     moves.append((col + 2, row + 1))
 
-    return moves
+    return (moves, False)
   
 class Pawn(Piece):
   def __init__(self, col, row):
@@ -177,14 +177,14 @@ class Pawn(Piece):
       self.direction = 1
     
   def getPossibleMoves(self):    
-    moves = []
+    moves = [[]]
     
     # Change options depending on it having moved or not
     if (self.hasMoved):
-      moves.append((self.col, self.row + self.direction))
+      moves[0].append((self.col, self.row + self.direction))
     else:
-      moves.append((self.col, self.row + (self.direction * 2)))
-      moves.append((self.col, self.row + self.direction))
+      moves[0].append((self.col, self.row + (self.direction * 2)))
+      moves[0].append((self.col, self.row + self.direction))
     
-    return moves
+    return (moves, True)
     
