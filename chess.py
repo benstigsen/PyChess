@@ -41,15 +41,30 @@ class Chess:
             if (row >= 0 and row < 8):
               piece = self.board.getPiece((col, row))
               
-              # TO-DO: getPossibleMoves should remove moves from whenever the pieces aren't available
               if (piece):
+                self.board.selectedPiece = piece
+                
                 moves, isStreakBasedMovement = piece.getPossibleMoves()
                 moves = self.board.sanitizeMoves(piece, moves, isStreakBasedMovement)
+                
+                self.board.availableMoves = moves
+                
                 self.drawQueue.append([self.board.drawChessboard])
                 self.drawQueue.append([self.board.drawAvailableMoves, moves])
                 self.drawQueue.append([self.board.drawChessPieces])
+              else:
+                if (self.board.selectedPiece):
+                  piece = self.board.selectedPiece
+                  if ((col, row) in self.board.availableMoves):
+                    self.board.movePiece(piece, (col, row))
+                  else:
+                    self.board.selectedPiece = None
+                    self.board.availableMoves = None
+                    
+                self.drawQueue.append([self.board.drawChessboard])
+                self.drawQueue.append([self.board.drawChessPieces])
                 
-                return True
+              return True
                 
     return False
     

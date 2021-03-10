@@ -9,9 +9,10 @@ class Board:
   def __init__(self, squareSize = (WIDTH / 9), padding = (WIDTH / 18)):
     board = []
     
-    self.squareSize = squareSize
-    self.padding  = padding
-    self.selected = None
+    self.squareSize     = squareSize
+    self.padding        = padding
+    self.selectedPiece  = None
+    self.availableMoves = []
     
     # See-through transparent square when move is available
     self.squareAvailable = pygame.Surface((squareSize, squareSize), pygame.SRCALPHA)
@@ -101,6 +102,19 @@ class Board:
     
     # [row][col] since the array is [y][x]
     return self.board[row][col]
+    
+  def movePiece(self, piece, dest):
+    colFrom = piece.col
+    rowFrom = piece.row
+    
+    colTo = dest[0]
+    rowTo = dest[1]
+    
+    piece.col = colTo
+    piece.row = rowTo
+    
+    self.board[rowTo][colTo] = piece
+    self.board[rowFrom][colFrom] = None
   
   # TO-DO: Simplify
   def sanitizeMoves(self, piece, moves, isStreakBasedMovement):
