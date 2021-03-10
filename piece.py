@@ -177,7 +177,7 @@ class Pawn(Piece):
       self.direction = 1
     
   def getPossibleMoves(self):    
-    moves = [[]]
+    moves = [[], []]
     
     # Change options depending on it having moved or not
     if (self.hasMoved):
@@ -185,6 +185,10 @@ class Pawn(Piece):
     else:
       moves[0].append((self.col, self.row + self.direction))
       moves[0].append((self.col, self.row + (self.direction * 2)))
+    
+    # Attack
+    moves[1].append((self.col - 1, self.row + self.direction))
+    moves[1].append((self.col + 1, self.row + self.direction))
     
     return (moves, True)
     

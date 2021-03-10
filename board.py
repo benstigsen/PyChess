@@ -124,8 +124,28 @@ class Board:
     self.selected       = None
     self.availableMoves = []
   
+  def isOutOfBounds(self, pos):
+    return (pos[0] < 0 or pos[0] > 7 or pos[1] < 0 or pos[1] > 7)
+  
   # TO-DO: Simplify
   def sanitizeMoves(self, piece, moves, isStreakBasedMovement):
+    # Pawn (special case)
+    if (piece.name.lower() == "p"):
+      sanitizedMoves = []
+      if (not self.isOutOfBounds(moves[0][0]) and self.isPositionFree(moves[0][0])):
+        sanitizedMoves.append(moves[0][0])
+        if (not piece.hasMoved):
+          if (not self.isOutOfBounds(moves[0][1]) and self.isPositionFree(moves[0][1])):
+            sanitizedMoves.append(moves[0][1])
+      
+      # Pawn Attacks
+      for move in moves[1]:
+        if (not self.isOutOfBounds(move)):
+          if (not self.isPositionFree(move) and not piece.isFriendly(self.getPiece(move))):
+            sanitizedMoves.append(move)
+      
+      return sanitizedMoves
+    
     if (isStreakBasedMovement):
       sanitizedMoves = []
       
@@ -135,9 +155,7 @@ class Board:
         
         while (j < len(moves[i])):
           # Check if out-of-bounds
-          if (moves[i][j][0] < 0 or moves[i][j][0] > 7):
-            break
-          elif (moves[i][j][1] < 0 or moves[i][j][1] > 7):
+          if self.isOutOfBounds(moves[i][j]):
             break
           # Check if position is free and if the it's a friendly piece
           else:
@@ -158,9 +176,7 @@ class Board:
       i = 0
       while (i < len(moves)):
         # Check if out-of-bounds
-        if (moves[i][0] < 0 or moves[i][0] > 7):
-          moves.pop(i)
-        elif (moves[i][1] < 0 or moves[i][1] > 7):
+        if (self.isOutOfBounds(moves[i])):
           moves.pop(i)
           
         # Check if position is free and if the it's a friendly piece
