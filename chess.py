@@ -43,8 +43,8 @@ class Chess:
               
               # TO-DO: getPossibleMoves should remove moves from whenever the pieces aren't available
               if (piece):
-                moves = piece.getPossibleMoves()
-                moves = self.board.sanitizeMoves(piece, moves)      # 2D array for directions [[vertical, ...], [horizontal, ...]]
+                moves, isStreakBasedMovement = piece.getPossibleMoves()
+                moves = self.board.sanitizeMoves(piece, moves, isStreakBasedMovement)
                 self.drawQueue.append([self.board.drawChessboard])
                 self.drawQueue.append([self.board.drawAvailableMoves, moves])
                 self.drawQueue.append([self.board.drawChessPieces])

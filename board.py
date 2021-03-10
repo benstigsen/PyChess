@@ -101,21 +101,46 @@ class Board:
     
     # [row][col] since the array is [y][x]
     return self.board[row][col]
-    
-  def sanitizeMoves(self, piece, moves):
-    i = 0
-    while (i < len(moves)):
-      # Check if out-of-bounds
-      if (moves[i][0] < 0 or moves[i][0] > 7):
-        moves.pop(i)
-      elif (moves[i][1] < 0 or moves[i][1] > 7):
-        moves.pop(i)
+  
+  def sanitizeMoves(self, piece, moves, isStreakBasedMovement):
+  
+    if (isStreakBasedMovement):
+      sanitizedMoves = []
+      
+      i = 0
+      while (i < len(moves)):
+        j = 0
         
-      # Check if position is free and if the it's a friendly piece
-      elif (not self.isPositionFree(moves[i]) and piece.isFriendly(self.getPiece(moves[i]))):
-        moves.pop(i)
-      else:
+        while (j < len(moves[i])):
+          # Check if out-of-bounds
+          if (moves[i][j][0] < 0 or moves[i][j][0] > 7):
+            break
+          elif (moves[i][j][1] < 0 or moves[i][j][1] > 7):
+            break
+          # Check if position is free and if the it's a friendly piece
+          elif (not self.isPositionFree(moves[i][j]) and piece.isFriendly(self.getPiece(moves[i][j]))):
+            break
+          else:
+            sanitizedMoves.append(moves[i][j])
+          j += 1
         i += 1
         
-    return moves
+      return sanitizedMoves
+    else:
+      i = 0
+      while (i < len(moves)):
+        # Check if out-of-bounds
+        if (moves[i][0] < 0 or moves[i][0] > 7):
+          moves.pop(i)
+        elif (moves[i][1] < 0 or moves[i][1] > 7):
+          moves.pop(i)
+          
+        # Check if position is free and if the it's a friendly piece
+        elif (not self.isPositionFree(moves[i]) and piece.isFriendly(self.getPiece(moves[i]))):
+          moves.pop(i)
+        else:
+          i += 1
+              
+      return moves
+    return []
 
