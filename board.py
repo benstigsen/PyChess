@@ -126,10 +126,9 @@ class Board:
   
   def isOutOfBounds(self, pos):
     return (pos[0] < 0 or pos[0] > 7 or pos[1] < 0 or pos[1] > 7)
-  
-  # TO-DO: Simplify
+
   def sanitizeMoves(self, piece, moves, isStreakBasedMovement):
-    # Pawn (special case)
+    # Pawn
     if (piece.name.lower() == "p"):
       sanitizedMoves = []
       if (not self.isOutOfBounds(moves[0][0]) and self.isPositionFree(moves[0][0])):
@@ -146,6 +145,7 @@ class Board:
       
       return sanitizedMoves
     
+    # Queen, Bishop, Rook
     if (isStreakBasedMovement):
       sanitizedMoves = []
       
@@ -172,6 +172,7 @@ class Board:
         i += 1
         
       return sanitizedMoves
+    # King, Knight
     else:
       i = 0
       while (i < len(moves)):
