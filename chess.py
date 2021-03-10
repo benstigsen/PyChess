@@ -41,7 +41,7 @@ class Chess:
             if (row >= 0 and row < 8):
               piece = self.board.getPiece((col, row))
               
-              if (piece):
+              if (piece and (piece.isWhite == self.board.isWhitesTurn)):
                 self.board.selectedPiece = piece
                 
                 moves, isStreakBasedMovement = piece.getPossibleMoves()

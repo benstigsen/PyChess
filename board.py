@@ -13,6 +13,7 @@ class Board:
     self.padding        = padding
     self.selectedPiece  = None
     self.availableMoves = []
+    self.isWhitesTurn   = True
     
     # See-through transparent square when move is available
     self.squareAvailable = pygame.Surface((squareSize, squareSize), pygame.SRCALPHA)
@@ -104,6 +105,9 @@ class Board:
     return self.board[row][col]
     
   def movePiece(self, piece, dest):
+    if (piece.name.lower() == "p"):
+      piece.hasMoved = True
+  
     colFrom = piece.col
     rowFrom = piece.row
     
@@ -113,8 +117,12 @@ class Board:
     piece.col = colTo
     piece.row = rowTo
     
-    self.board[rowTo][colTo] = piece
+    self.board[rowTo][colTo]     = piece
     self.board[rowFrom][colFrom] = None
+    
+    self.isWhitesTurn   = (not piece.isWhite)
+    self.selected       = None
+    self.availableMoves = []
   
   # TO-DO: Simplify
   def sanitizeMoves(self, piece, moves, isStreakBasedMovement):

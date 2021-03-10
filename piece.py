@@ -15,9 +15,7 @@ class Piece:
     self.col = col
     self.row = row
     
-    self.hasMoved = False
     self.isWhite = Piece.isWhite
-    #print(self.name)
     
     # Load white and black pieces
     if (self.isWhite):
@@ -170,6 +168,8 @@ class Pawn(Piece):
   def __init__(self, col, row):
     super().__init__("P", col, row)
     
+    self.hasMoved = False
+    
     # -1 for white, 1 for black
     if (self.isWhite):
       self.direction = -1
@@ -183,8 +183,8 @@ class Pawn(Piece):
     if (self.hasMoved):
       moves[0].append((self.col, self.row + self.direction))
     else:
-      moves[0].append((self.col, self.row + (self.direction * 2)))
       moves[0].append((self.col, self.row + self.direction))
+      moves[0].append((self.col, self.row + (self.direction * 2)))
     
     return (moves, True)
     
