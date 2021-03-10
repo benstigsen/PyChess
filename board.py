@@ -102,8 +102,8 @@ class Board:
     # [row][col] since the array is [y][x]
     return self.board[row][col]
   
+  # TO-DO: Simplify
   def sanitizeMoves(self, piece, moves, isStreakBasedMovement):
-  
     if (isStreakBasedMovement):
       sanitizedMoves = []
       
@@ -118,9 +118,15 @@ class Board:
           elif (moves[i][j][1] < 0 or moves[i][j][1] > 7):
             break
           # Check if position is free and if the it's a friendly piece
-          elif (not self.isPositionFree(moves[i][j]) and piece.isFriendly(self.getPiece(moves[i][j]))):
-            break
           else:
+            isFree = self.isPositionFree(moves[i][j])
+            
+            if (not isFree):
+              if (not piece.isFriendly(self.getPiece(moves[i][j]))):
+                sanitizedMoves.append(moves[i][j])
+
+              break
+          
             sanitizedMoves.append(moves[i][j])
           j += 1
         i += 1
