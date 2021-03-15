@@ -25,8 +25,8 @@ class Board:
     Piece.isWhite = False
     
     board.append([
-      Rook(0, 0),  Knight(1, 0), Bishop(2, 0), King(3, 0), 
-      Queen(4, 0), Bishop(5, 0), Knight(6, 0), Rook(7, 0)
+      Rook(0, 0),  Knight(1, 0), Bishop(2, 0), Queen(3, 0),
+      King(4, 0), Bishop(5, 0), Knight(6, 0), Rook(7, 0)
     ])
     
     # Pawns
@@ -49,17 +49,14 @@ class Board:
       board[6].append(Pawn(i, 6))
     
     board.append([
-      Rook(0, 7),  Knight(1, 7), Bishop(2, 7), King(3, 7), 
-      Queen(4, 7), Bishop(5, 7), Knight(6, 7), Rook(7, 7)
+      Rook(0, 7),  Knight(1, 7), Bishop(2, 7), Queen(3, 7),
+      King(4, 7), Bishop(5, 7), Knight(6, 7), Rook(7, 7)
     ])
     
     self.board = board
-
-  def update(self):
-    pass
     
+  # Draw chessboard
   def drawChessboard(self):
-    # Draw chessboard
     i = 0
     for col in range(0, 8):
       for row in range(0, 8):
@@ -74,14 +71,15 @@ class Board:
         i += 1
       i -= 1
   
+  # Draw available moves from an array/list of moves
   def drawAvailableMoves(self, moves):
     for pos in moves:
       x = self.padding + (pos[0] * self.squareSize)
       y = self.padding + (pos[1] * self.squareSize)
-      
-      #pygame.draw.rect(config.screen, (255, 0, 0, 0.1), pygame.Rect(x, y, self.squareSize, self.squareSize))
+
       config.screen.blit(self.squareAvailable, (x, y))
-      
+  
+  # Draw chess pieces on the board
   def drawChessPieces(self):
     # Draw pieces
     for row in self.board:
@@ -91,44 +89,49 @@ class Board:
           posY = self.padding + (piece.row * self.squareSize)
           config.screen.blit(piece.image, (posX, posY + 2))
   
+  # Check if a specific position is free
   def isPositionFree(self, pos):
     col = pos[0]
     row = pos[1]
     
     return (self.board[row][col] == None)
-    
+  
+  # Get piece from position
   def getPiece(self, pos):
     col = pos[0]
     row = pos[1]
     
-    # [row][col] since the array is [y][x]
-    return self.board[row][col]
-    
+    return (self.board[row][col])
+  
+  # Move a <piece> to <dest>
   def movePiece(self, piece, dest):
+    # Pawn (special case)
     if (piece.name.lower() == "p"):
       piece.hasMoved = True
   
-    colFrom = piece.col
-    rowFrom = piece.row
+    col1 = piece.col
+    row1 = piece.row
     
-    colTo = dest[0]
-    rowTo = dest[1]
+    col2 = dest[0]
+    row2 = dest[1]
     
-    piece.col = colTo
-    piece.row = rowTo
+    piece.col = col2
+    piece.row = row2
     
-    self.board[rowTo][colTo]     = piece
-    self.board[rowFrom][colFrom] = None
+    self.board[row2][col2] = piece
+    self.board[row1][col1] = None
     
     self.isWhitesTurn   = (not piece.isWhite)
     self.selected       = None
     self.availableMoves = []
   
+  # Check is position is out of bounds
   def isOutOfBounds(self, pos):
     return (pos[0] < 0 or pos[0] > 7 or pos[1] < 0 or pos[1] > 7)
-
+  
+  # Sanitize moves
   def sanitizeMoves(self, piece, moves, isStreakBasedMovement):
-    # Pawn
+    # Pawn (special case)
     if (piece.name.lower() == "p"):
       sanitizedMoves = []
       if (not self.isOutOfBounds(moves[0][0]) and self.isPositionFree(moves[0][0])):
@@ -137,7 +140,7 @@ class Board:
           if (not self.isOutOfBounds(moves[0][1]) and self.isPositionFree(moves[0][1])):
             sanitizedMoves.append(moves[0][1])
       
-      # Pawn Attacks
+      # Pawn attacks
       for move in moves[1]:
         if (not self.isOutOfBounds(move)):
           if (not self.isPositionFree(move) and not piece.isFriendly(self.getPiece(move))):
@@ -162,6 +165,7 @@ class Board:
             isFree = self.isPositionFree(moves[i][j])
             
             if (not isFree):
+              # If the piece is not friendly, then it can be taken
               if (not piece.isFriendly(self.getPiece(moves[i][j]))):
                 sanitizedMoves.append(moves[i][j])
 

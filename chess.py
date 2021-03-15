@@ -33,41 +33,49 @@ class Chess:
         if (event.button == 1):
           pos = pygame.mouse.get_pos()
           
-          # Get row and column
+          # Convert mouse position to row and column
           col = int((pos[0] - self.board.padding) // self.board.squareSize)
           row = int((pos[1] - self.board.padding) // self.board.squareSize)
-  
-          if (col >= 0 and col < 8):
-            if (row >= 0 and row < 8):
-              piece = self.board.getPiece((col, row))
+          
+          # Check if mouse click is out-of-bounds
+          if (not self.board.isOutOfBounds((col, row))):
+            piece = self.board.getPiece((col, row))
+            
+            # Select piece if it's white or black's turn
+            if (piece and (piece.isWhite == self.board.isWhitesTurn)):
+              self.board.selectedPiece = piece
               
-              if (piece and (piece.isWhite == self.board.isWhitesTurn)):
-                self.board.selectedPiece = piece
-                
-                moves, isStreakBasedMovement = piece.getPossibleMoves()
-                moves = self.board.sanitizeMoves(piece, moves, isStreakBasedMovement)
-                
-                self.board.availableMoves = moves
-                
-                self.drawQueue.append([self.board.drawChessboard])
-                self.drawQueue.append([self.board.drawAvailableMoves, moves])
-                self.drawQueue.append([self.board.drawChessPieces])
-              else:
-                if (self.board.selectedPiece):
-                  piece = self.board.selectedPiece
-                  if ((col, row) in self.board.availableMoves):
-                    self.board.movePiece(piece, (col, row))
-                  else:
-                    self.board.selectedPiece = None
-                    self.board.availableMoves = None
-                    
-                self.drawQueue.append([self.board.drawChessboard])
-                self.drawQueue.append([self.board.drawChessPieces])
-                
-              return True
-                
+              # Get and sanitize available moves
+              moves, isStreakBasedMovement = piece.getPossibleMoves()
+              moves = self.board.sanitizeMoves(piece, moves, isStreakBasedMovement)
+              
+              self.board.availableMoves = moves
+              
+              # Add chessboard, available moves and the chess pieces
+              self.drawQueue.append([self.board.drawChessboard])
+              self.drawQueue.append([self.board.drawAvailableMoves, moves])
+              self.drawQueue.append([self.board.drawChessPieces])
+            else:
+              # Move selected piece if any
+              if (self.board.selectedPiece):
+                piece = self.board.selectedPiece
+                if ((col, row) in self.board.availableMoves):
+                  self.board.movePiece(piece, (col, row))
+                else:
+                  self.board.selectedPiece = None
+                  self.board.availableMoves = None
+              
+              # Draw chessboard and pieces
+              self.drawQueue.append([self.board.drawChessboard])
+              self.drawQueue.append([self.board.drawChessPieces])
+            
+            # A piece was moved, selected or deselected
+            return True
+            
+    # No piece was moved, selected or deselected
     return False
-    
+  
+  # Draw function
   def _draw(self):
     for item in self.drawQueue:
       if (len(item) == 1):

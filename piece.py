@@ -1,6 +1,9 @@
 import pygame
 import config
 
+# List that contains image data:
+#   [0] = white
+#   [1] = black
 images = [{}, {}]
 
 class Piece:
@@ -22,6 +25,7 @@ class Piece:
       if (name.lower() in images[0]):
         self.image = images[0][name.lower()]
       else:
+        # Change piece color to white and add to <images> list
         self.image = pygame.image.load(f"assets/img/{name.lower()}.png")
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.image.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
@@ -32,13 +36,16 @@ class Piece:
       if (name.lower() in images[1]):
         self.image = images[1][name.lower()]
       else:
+        # Load black piece and add to <images> list
         self.image = pygame.image.load(f"assets/img/{name.lower()}.png")
         self.image = pygame.transform.scale(self.image, (50, 50))
         images[1][name.lower()] = self.image
-    
+  
+  # Get the current position
   def getPosition(self):
     return (self.col, self.row)
-    
+  
+  # Check if other piece is friendly
   def isFriendly(self, other):
     return (self.isWhite == other.isWhite)
 
@@ -46,7 +53,8 @@ class Piece:
 class King(Piece):
   def __init__(self, col, row):
     super().__init__("K", col, row)
-
+  
+  # Get the king's possible moves
   def getPossibleMoves(self):
     row = self.row
     col = self.col
@@ -69,11 +77,11 @@ class King(Piece):
     
     return (moves, False)
 
-# TO-DO: Get blocking pieces
 class Queen(Piece):
   def __init__(self, col, row):
     super().__init__("Q", col, row)
-    
+  
+  # Get the queen's possible moves
   def getPossibleMoves(self):
     col = self.col
     row = self.row
@@ -100,7 +108,8 @@ class Queen(Piece):
 class Rook(Piece):
   def __init__(self, col, row):
     super().__init__("R", col, row)
-    
+  
+  # Get the rook's possible moves
   def getPossibleMoves(self):
     col = self.col
     row = self.row
@@ -121,7 +130,8 @@ class Rook(Piece):
 class Bishop(Piece):
   def __init__(self, col, row):
     super().__init__("B", col, row)
-    
+  
+  # Get the bishop's possible moves
   def getPossibleMoves(self):
     col = self.col
     row = self.row
@@ -139,7 +149,8 @@ class Bishop(Piece):
 class Knight(Piece):
   def __init__(self, col, row):
     super().__init__("N", col, row)
-      
+  
+  # Get the knight's possible moves
   def getPossibleMoves(self):
     col = self.col
     row = self.row
@@ -175,11 +186,12 @@ class Pawn(Piece):
       self.direction = -1
     else:
       self.direction = 1
-    
+  
+  # Get the pawn's possible moves
   def getPossibleMoves(self):    
     moves = [[], []]
     
-    # Change options depending on it having moved or not
+    # Change options depending on it the pawn having moved or not
     if (self.hasMoved):
       moves[0].append((self.col, self.row + self.direction))
     else:
