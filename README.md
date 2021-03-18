@@ -24,4 +24,4 @@ decided not to create the following:
 
 ---
 
-![](./assets/screenshot.png)
+![](./assets/img/screenshot.png)
