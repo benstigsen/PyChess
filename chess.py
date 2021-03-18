@@ -2,7 +2,10 @@ import board
 import pygame
 import config
 from math import ceil
-#import piece
+
+# Variables that contain sound effects
+sound1 = None
+sound2 = None
 
 class Chess:
   def __init__(self):
@@ -51,7 +54,7 @@ class Chess:
               
               self.board.availableMoves = moves
               
-              # Add chessboard, available moves and the chess pieces
+              # Add chessboard, available moves and the chess pieces to the drawQueue
               self.drawQueue.append([self.board.drawChessboard])
               self.drawQueue.append([self.board.drawAvailableMoves, moves])
               self.drawQueue.append([self.board.drawChessPieces])
@@ -61,6 +64,11 @@ class Chess:
                 piece = self.board.selectedPiece
                 if ((col, row) in self.board.availableMoves):
                   self.board.movePiece(piece, (col, row))
+                  
+                  if (piece.isWhite):
+                    sound1.play()
+                  else:
+                    sound2.play()
                 else:
                   self.board.selectedPiece = None
                   self.board.availableMoves = None
@@ -88,6 +96,9 @@ class Chess:
 if __name__ == "__main__":
   pygame.init()
   config.screen = pygame.display.set_mode(config.windowSize)
+  
+  sound1 = pygame.mixer.Sound("assets/sfx/1.wav")
+  sound2 = pygame.mixer.Sound("assets/sfx/2.wav")
   
   game = Chess()
   game.run()
