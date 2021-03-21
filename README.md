@@ -12,8 +12,8 @@ assignment. The assignment had very few requirements:
 - take other pieces
 - epic sound effects
 
-That's about it. The game was already way bigger than the teacher expected, so I
-decided not to create the following:
+That's about it. The game is already way bigger than required, so I
+decided not to implement the following:
 - splash screen
 - menu
 - end screen
